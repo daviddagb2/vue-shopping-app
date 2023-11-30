@@ -6,7 +6,7 @@ import CartView from "../views/CartView.vue";
 import ProductDetailView from "../views/ProductDetailView.vue";
 
 const router = createRouter({
-  history: createWebHistory(process.env.VUE_APP_BASE_URL),
+  history: createWebHistory(import.meta.env.VITE_APP_BASE_URL),
   routes: [
     {
       path: "/",

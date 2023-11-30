@@ -1,37 +1,59 @@
 <template>
-    <div>
-        <h1>Lista de Productos</h1>
-        <!-- Barra de búsqueda -->
-        <input v-model="searchTerm" placeholder="Buscar por nombre" @input="filterProducts" />
+    <LayoutTemplate>
+        <template v-slot:content-slot>
+            <h1>Lista de Productos</h1>
 
-        <!-- Tabla de productos utilizando PrimeVue's DataTable -->
-        <DataTable :value="filteredProducts">
-            <Column field="id" header="ID"></Column>
-            <Column field="title" header="Nombre"></Column>
-            <Column field="price" header="Precio"></Column>
-            <Column field="category" header="Categoría"></Column>
-            <Column header="Acciones">
-                <template #body="{ rowData }">
-                    <button @click="addToCart(rowData)">Agregar al carrito</button>
-                </template>
-            </Column>
-        </DataTable>
-    </div>
+            <input v-model="searchTerm" placeholder="Buscar por nombre" @input="filterProducts" />
+
+            <DataTable :value="filteredProducts">
+
+                <PrimeColumn header="Imagen">
+                    <template #body="slotProps">
+                        <ImagePrime :src="slotProps.data.image" alt="Image" width="80" preview />
+                    </template>
+                </PrimeColumn>
+
+                <PrimeColumn field="title" header="Nombre"></PrimeColumn>
+
+
+                <PrimeColumn field="price" header="Precio"></PrimeColumn>
+                <PrimeColumn field="category" header="Categoría"></PrimeColumn>
+
+                <PrimeColumn header="Acciones">
+                    <template #body="{ rowData }">
+                        <button @click="addToCart(rowData)">Agregar al carrito</button>
+                    </template>
+                </PrimeColumn>
+            </DataTable>
+
+
+        </template>
+    </LayoutTemplate>
 </template>
   
 <script>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
+import LayoutTemplate from "../components/common/LayoutTemplateSimple.vue";
+import axios from 'axios';
 
 export default {
+    components: {
+        LayoutTemplate
+    },
     setup() {
         const searchTerm = ref('');
-        const products = ref([]); // La lista completa de productos obtenidos de la API
+        const products = ref([]);
 
         const filteredProducts = computed(() => {
-            // Filtra los productos según el término de búsqueda
-            return products.value.filter(product =>
-                product.title.toLowerCase().includes(searchTerm.value.toLowerCase())
-            );
+            // Verifica si products.value es un arreglo antes de aplicar el filtro
+            if (Array.isArray(products.value)) {
+                return products.value.filter(product =>
+                    product.title.toLowerCase().includes(searchTerm.value.toLowerCase())
+                );
+            } else {
+                // Si products.value no es un arreglo (por ejemplo, aún está vacío), devuelve un arreglo vacío
+                return [];
+            }
         });
 
         // Método para agregar un producto al carrito (debes implementar esto según tu lógica)
@@ -40,8 +62,14 @@ export default {
         };
 
         // Método para cargar la lista de productos desde la API (debes implementar esto)
-        const fetchProducts = () => {
-            // Implementa la lógica para obtener los productos de la API aquí
+        const fetchProducts = async () => {
+            try {
+                const response = await axios.get(`https://fakestoreapi.com/products`);
+                products.value = response.data;
+                console.log(response.data);
+            } catch (error) {
+                console.error('Error al cargar los productos:', error);
+            }
         };
 
         // Método para filtrar productos cuando se realiza una búsqueda
@@ -50,7 +78,9 @@ export default {
         };
 
         // Carga la lista de productos al cargar la página
-        fetchProducts();
+        onMounted(() => {
+            fetchProducts();
+        });
 
         return {
             searchTerm,
