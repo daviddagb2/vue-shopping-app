@@ -1,7 +1,6 @@
 @import 'variables';
 
 .template_layout{
-    /* Asegúrate de que el menú lateral tenga una altura completa y un scroll si es necesario */
     .d-flex.flex-column.flex-shrink-0.p-3.bg-light {
         height: 100vh;
         overflow-y: auto;

@@ -7,7 +7,6 @@ import AsideComponent from "./AsideComponent.vue";
         <HeaderBarComponent />
 
         <div class="d-flex flex-grow-1 overflow-hidden">
-            <AsideComponent />
 
             <div class="flex-grow-1 overflow-auto">
                 <slot name="maincontent-slot">

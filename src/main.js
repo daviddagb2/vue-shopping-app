@@ -13,9 +13,12 @@ import Button from "primevue/button";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 import Image from "primevue/image";
+import Rating from "primevue/rating";
 
 // Primevue Theme
 import "primevue/resources/themes/bootstrap4-light-blue/theme.css";
+import "primevue/resources/primevue.min.css";
+import "primeicons/primeicons.css";
 
 // Bootstrap JS
 import "bootstrap/dist/js/bootstrap.js";
@@ -60,6 +63,13 @@ app.use(PrimeVue, {
     accept: "Aceptar",
     reject: "Rechazar",
   },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@import "@/styles/main.scss";`, // Asegúrate de que se importe tu archivo de estilo principal aquí
+      },
+    },
+  },
 });
 
 // Use components
@@ -68,6 +78,7 @@ app.component("PrimeButton", Button);
 app.component("DataTable", DataTable);
 app.component("PrimeColumn", Column);
 app.component("ImagePrime", Image);
+app.component("RatingPrime", Rating);
 
 //Mount App
 app.mount("#app");

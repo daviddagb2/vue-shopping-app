@@ -1,30 +1,55 @@
 <template>
     <LayoutTemplate>
+
         <template v-slot:content-slot>
-            <h1>Lista de Productos</h1>
 
-            <input v-model="searchTerm" placeholder="Buscar por nombre" @input="filterProducts" />
+            <div class="container">
 
-            <DataTable :value="filteredProducts">
+                <div class="row">
 
-                <PrimeColumn header="Imagen">
-                    <template #body="slotProps">
-                        <ImagePrime :src="slotProps.data.image" alt="Image" width="80" preview />
-                    </template>
-                </PrimeColumn>
+                    <div class="col-md-2 px-0">
+                        <CategoriesBar />
+                    </div>
 
-                <PrimeColumn field="title" header="Nombre"></PrimeColumn>
+                    <div class="col">
+                        <div class="mainproductscontent">
+                            <h1>Mejores Artículos de Oferta</h1>
+
+                            <DataTable :value="filteredProducts">
+
+                                <PrimeColumn header="Imagen">
+                                    <template #body="slotProps">
+                                        <ImagePrime :src="slotProps.data.image" alt="Image" width="80" preview />
+                                    </template>
+                                </PrimeColumn>
+
+                                <PrimeColumn header="Nombre" style="max-width: 240px;">
+                                    <template #body="slotProps">
+                                        <router-link :to="`/product/${slotProps.data.id}`">{{ slotProps.data.title
+                                        }}</router-link>
+                                    </template>
+                                </PrimeColumn>
+
+                                <PrimeColumn field="category" header="Categoría"></PrimeColumn>
+                                <PrimeColumn field="price" header="Precio"></PrimeColumn>
 
 
-                <PrimeColumn field="price" header="Precio"></PrimeColumn>
-                <PrimeColumn field="category" header="Categoría"></PrimeColumn>
+                                <PrimeColumn header="Acciones">
+                                    <template #body="{ rowData }">
+                                        <button @click="addToCart(rowData)">Agregar al carrito</button>
+                                    </template>
+                                </PrimeColumn>
+                            </DataTable>
+                        </div>
 
-                <PrimeColumn header="Acciones">
-                    <template #body="{ rowData }">
-                        <button @click="addToCart(rowData)">Agregar al carrito</button>
-                    </template>
-                </PrimeColumn>
-            </DataTable>
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
 
 
         </template>
@@ -35,10 +60,12 @@
 import { ref, computed, onMounted } from 'vue';
 import LayoutTemplate from "../components/common/LayoutTemplateSimple.vue";
 import axios from 'axios';
+import CategoriesBar from "../components/common/CategoriesBar.vue";
 
 export default {
     components: {
-        LayoutTemplate
+        LayoutTemplate,
+        CategoriesBar
     },
     setup() {
         const searchTerm = ref('');
@@ -72,6 +99,8 @@ export default {
             }
         };
 
+
+
         // Método para filtrar productos cuando se realiza una búsqueda
         const filterProducts = () => {
             // Esto se manejará automáticamente a través de la propiedad "filteredProducts" calculada
@@ -82,7 +111,10 @@ export default {
             fetchProducts();
         });
 
+        const rating = ref(3); // Valor inicial de la calificación
+
         return {
+            rating,
             searchTerm,
             products,
             filteredProducts,

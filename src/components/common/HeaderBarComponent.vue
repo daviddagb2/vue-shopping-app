@@ -1,13 +1,11 @@
 <template>
-    <header class="navbar navbar-expand navbar-dark flex-column flex-md-row bd-navbar">
+    <header class="navbar navbar-expand navbar-dark bd-navbar">
         <div class="container-fluid">
 
-            <a class="navbar-brand  d-none d-md-block" href="#">
-
+            <RouterLink :to="'/'" :class="'navbar-brand  d-none d-md-block'">
                 <strong>Vue Shopping Store</strong>
-            </a>
+            </RouterLink>
 
-            <!-- Responsive offisde button -->
             <button class="navbar-brand btn btn-link d-block d-md-none" type="button" data-bs-toggle="offcanvas"
                 data-bs-target="#bdSidebar" aria-controls="bdSidebar">
                 <font-awesome-icon :icon="['fas', 'bars']" class="iconNavheader" />
@@ -18,14 +16,45 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="d-flex">
+            <div class="ml-auto"> <!-- Esto alineará los elementos a la derecha -->
+                <div class="input-group">
+                    <input type="text" class="form-control form-control-sm" placeholder="Buscar..." v-model="searchQuery" />
+                    <button class="btn btn-success btn-sm" @click="search">
+                        Buscar
+                    </button>
+                </div>
 
-                <button class="btn " type="button">
-                    <img src="/img/profilepic.jpg" class="rounded profileimg float-end" alt="Profile" />
-                </button>
+
             </div>
 
         </div>
     </header>
 </template>
+  
+<script>
+import { computed } from "vue";
+
+export default {
+    props: {
+        icon: String,
+        variant: String,
+        title: String,
+    },
+    data() {
+        return {
+            searchQuery: "",
+        };
+    },
+    methods: {
+        search() {
+            // Aquí puedes implementar la lógica de búsqueda según tus necesidades
+            console.log("Realizar búsqueda con:", this.searchQuery);
+        },
+    },
+};
+</script>
+  
+<style scoped>
+/* Estilos CSS personalizados aquí si es necesario */
+</style>
   
