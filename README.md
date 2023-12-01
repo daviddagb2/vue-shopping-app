@@ -1,8 +1,3 @@
-## Url de la App
-
-Puedes probar la aplicación en la siguiente URL: : [https://vue-shopping-app.vercel.app/](https://vue-shopping-app.vercel.app/)
-
-
 # Vue 3 + Vite Project
 
 Este proyecto es parte de una prueba técnica utilizando Vue 3. Se muestra un pequeño demo de ecommerce en el cual se consultan los productos de [Fakestore api] (https://fakestoreapi.com/)
@@ -22,8 +17,8 @@ Para comenzar a usar y desarrollar el proyecto en tu máquina local, sigue estos
 1. **Clonar el Repositorio**
 
    ```bash
-   git clone https://tu-repositorio.git
-   cd tu-repositorio
+   git clone https://github.com/daviddagb2/vue-shopping-app.git
+   cd vue-shopping-app
 
 2. **Instalar Dependencias**
     ```bash
@@ -36,3 +31,6 @@ Para comenzar a usar y desarrollar el proyecto en tu máquina local, sigue estos
 Esto iniciará un servidor de desarrollo local. 
 
 
+## Url de la App
+
+Puedes probar la aplicación en la siguiente URL: [https://vue-shopping-app.vercel.app/](https://vue-shopping-app.vercel.app/)
