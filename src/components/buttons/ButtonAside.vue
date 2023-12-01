@@ -41,4 +41,11 @@ a.asideitemlink {
         padding: 0;
     }
 }
+
+@media (max-width: 767px) {
+    a.asideitemlink {
+
+        color: #0a4a6f;
+    }
+}
 </style>

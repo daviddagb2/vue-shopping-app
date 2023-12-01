@@ -8,8 +8,11 @@
                         <CategoriesBar />
                     </div>
 
-                    <div class="col">
-                        <div class="mainproductscontent">
+                    <div class="col-md-10">
+
+                        <LoaderComponent v-if="isLoading" />
+
+                        <div class="mainproductscontent" v-if="!isLoading">
                             <h1>Mejores Artículos de Oferta</h1>
 
                             <div class="ml-auto">
@@ -23,6 +26,7 @@
                                 @add-to-cart="handleAddToCart" />
 
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -37,6 +41,7 @@ import LayoutTemplate from "../components/common/LayoutTemplateSimple.vue";
 import axios from 'axios';
 import CategoriesBar from "../components/common/CategoriesBar.vue";
 import ProductsTable from "../components/common/ProductsTable.vue";
+import LoaderComponent from "../components/common/LoaderComponent.vue";
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { useToast } from 'vue-toast-notification';
@@ -46,7 +51,8 @@ export default {
     components: {
         LayoutTemplate,
         CategoriesBar,
-        ProductsTable
+        ProductsTable,
+        LoaderComponent
     },
     setup() {
         const searchTerm = ref('');
@@ -54,6 +60,7 @@ export default {
         const router = useRouter();
         const store = useStore();
         const $toast = useToast();
+        const isLoading = ref(false);
 
         const filteredProducts = computed(() => {
             if (Array.isArray(products.value)) {
@@ -75,11 +82,14 @@ export default {
         };
 
         const fetchProducts = async () => {
+            isLoading.value = true;
             try {
                 const response = await axios.get(`https://fakestoreapi.com/products`);
                 products.value = response.data;
             } catch (error) {
                 console.error('Error al cargar los productos:', error);
+            } finally {
+                isLoading.value = false;
             }
         };
 
@@ -97,7 +107,8 @@ export default {
             filteredProducts,
             handleAddToCart,
             filterProducts,
-            viewDetail
+            viewDetail,
+            isLoading
         };
     },
 };

@@ -7,7 +7,6 @@ import ButtonAside from "../buttons/ButtonAside.vue";
 
         <div class="offcanvas-lg offcanvas-start" tabindex="-1" id="bdSidebar" aria-labelledby="bdSidebarOffcanvasLabel">
             <div class="sidebar ">
-                <!-- Sidebar content -->
                 <nav class="nav flex-column">
 
                     <ButtonAside :icon="'house'" :variant="'fas'" :title="'Home'" :route="'/'" />

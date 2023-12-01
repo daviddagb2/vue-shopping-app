@@ -8,7 +8,9 @@
                 <div class="row">
 
                     <div class=" col">
-                        <h3> <font-awesome-icon :icon="['fas', 'arrow-left']" /> Proceso de compra</h3>
+                        <router-link to="/" class="backbutton">
+                            <p> <font-awesome-icon :icon="['fas', 'arrow-left']" /> Proceso de compra</p>
+                        </router-link>
 
                         <hr />
 
@@ -31,7 +33,8 @@
                             <p><strong>Total:</strong> ${{ totalCartPrice }} USD</p>
 
                             <div class="d-grid gap-2">
-                                <button class="btn btn-primary" type="button" @click="handlePayment">
+                                <button class="btn btn-primary" type="button" @click="handlePayment"
+                                    :disabled="isPaymentButtonDisabled">
                                     <font-awesome-icon :icon="['fas', 'money-bill-1']" />
                                     Pagar</button>
                             </div>
@@ -83,6 +86,11 @@ export default {
             }, 0);
         });
 
+        const isPaymentButtonDisabled = computed(() => {
+            return totalCartPrice.value <= 0;
+        });
+
+
         const handleRemove = (productId) => {
             store.dispatch('cart/removeFromCart', productId);
         };
@@ -105,6 +113,7 @@ export default {
             searchTerm,
             products,
             totalCartPrice,
+            isPaymentButtonDisabled,
             handlePayment,
             handleRemove,
             updateQuantity,
@@ -123,6 +132,18 @@ export default {
     h2 {
         font-size: 18px;
         font-weight: bold;
+    }
+
+    .backbutton {
+        text-decoration: none;
+
+        p {
+            font-weight: bold;
+            font-weight: bold;
+            text-align: left;
+            color: black;
+        }
+
     }
 }
 </style>

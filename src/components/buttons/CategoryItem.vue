@@ -1,6 +1,6 @@
 <template>
     <div class="d-grid gap-2">
-        <router-link :to="`/categories/${title}`" class="btn btn-link btn-block">{{ title }}</router-link>
+        <router-link :to="`/categories/${title}`" class="btn btn-link btn-block customlink">{{ title }}</router-link>
     </div>
 </template>
   
@@ -33,6 +33,13 @@ export default {
     button {
         width: 100%;
     }
+}
+
+.customlink {
+    color: #0a4a6f;
+    text-transform: capitalize;
+    font-weight: 500;
+    text-decoration: none;
 }
 
 .category-button .badge {

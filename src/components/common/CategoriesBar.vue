@@ -55,6 +55,18 @@ export default {
         font-weight: 400;
         color: #000;
     }
+}
 
+@media (max-width: 767px) {
+    .categorybar {
+        background-color: #f5f5f5;
+        min-height: 250px;
+        padding-bottom: 10px;
+        height: auto;
+
+        h2 {
+            margin-bottom: 25px;
+        }
+    }
 }
 </style>

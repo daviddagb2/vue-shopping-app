@@ -9,22 +9,18 @@
                         <CategoriesBar />
                     </div>
 
-                    <div class="col">
-
-                        <div class="mainproductscontent">
+                    <div class="col-md-10">
+                        <LoaderComponent v-if="isLoading" />
+                        <div class="mainproductscontent" v-if="!isLoading">
 
                             <BreadcrumbComponent :items="breadcrumbItems" />
-
                             <h1>{{ categoryName }}</h1>
-
                             <div class="ml-auto">
                                 <div class="input-group">
                                     <input type="text" class="form-control form-control-sm" v-model="searchTerm"
                                         placeholder="Buscar productos..." />
                                 </div>
                             </div>
-
-
 
                             <ProductsTable :products="filteredProducts" @view-detail="viewDetail"
                                 @add-to-cart="handleAddToCart" />
@@ -44,6 +40,7 @@ import LayoutTemplate from "../components/common/LayoutTemplateSimple.vue";
 import BreadcrumbComponent from "../components/common/BreadCrumb.vue";
 import CategoriesBar from "../components/common/CategoriesBar.vue";
 import ProductsTable from "../components/common/ProductsTable.vue";
+import LoaderComponent from "../components/common/LoaderComponent.vue";
 import { useRoute } from 'vue-router';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
@@ -56,7 +53,8 @@ export default {
         LayoutTemplate,
         BreadcrumbComponent,
         CategoriesBar,
-        ProductsTable
+        ProductsTable,
+        LoaderComponent
     },
     setup() {
         const route = useRoute();
@@ -68,6 +66,7 @@ export default {
         const router = useRouter();
         const store = useStore();
         const $toast = useToast();
+        const isLoading = ref(false);
 
         const filteredProducts = computed(() => {
             if (Array.isArray(products.value)) {
@@ -97,11 +96,14 @@ export default {
         };
 
         const fetchProducts = async () => {
+            isLoading.value = true;
             try {
                 const response = await axios.get(`https://fakestoreapi.com/products/category/${categoryName.value}`);
                 products.value = response.data;
             } catch (error) {
                 console.error('Error al cargar los productos:', error);
+            } finally {
+                isLoading.value = false;
             }
         };
 
@@ -123,7 +125,8 @@ export default {
             breadcrumbItems,
             searchTerm,
             viewDetail,
-            handleAddToCart
+            handleAddToCart,
+            isLoading
         };
     },
 };
