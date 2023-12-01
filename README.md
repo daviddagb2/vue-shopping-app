@@ -1,7 +1,40 @@
-# Vue 3 + Vite
+## Url de la App
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+Puedes probar la aplicación en la siguiente URL: : [https://vue-shopping-app.vercel.app/](https://vue-shopping-app.vercel.app/)
 
-## Recommended IDE Setup
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+# Vue 3 + Vite Project
+
+Este proyecto es parte de una prueba técnica utilizando Vue 3. Se muestra un pequeño demo de ecommerce en el cual se consultan los productos de [Fakestore api] (https://fakestoreapi.com/)
+
+La prueba técnica consiste en configurar y desarrollar una aplicación web de comercio electrónico utilizando Vue.js con Vite, aprovechando las capacidades de modernos frameworks y herramientas de frontend. El objetivo es crear una experiencia de usuario interactiva y funcional que permita a los usuarios navegar, buscar y comprar productos. 
+
+## Características
+
+- Utiliza Vue 3 con el poder de Vite para un desarrollo rápido y eficiente.
+- Configuración lista para trabajar con TypeScript.
+- Soporte para Componentes de un Solo Archivo (SFC) y `<script setup>`.
+
+## Instalación y Uso
+
+Para comenzar a usar y desarrollar el proyecto en tu máquina local, sigue estos pasos:
+
+1. **Clonar el Repositorio**
+
+   ```bash
+   git clone https://tu-repositorio.git
+   cd tu-repositorio
+
+
+2. **Instalar Dependencias**
+    ```bash
+    npm install
+
+3. **Ejecutar el Proyecto**
+    ```bash
+    npm run dev
+
+
+Esto iniciará un servidor de desarrollo local. 
+
+
