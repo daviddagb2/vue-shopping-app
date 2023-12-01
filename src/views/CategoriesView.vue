@@ -13,12 +13,21 @@
 
                         <div class="mainproductscontent">
 
-                            <h1>{{ categoryName }}</h1>
-
                             <BreadcrumbComponent :items="breadcrumbItems" />
 
+                            <h1>{{ categoryName }}</h1>
+
+                            <div class="ml-auto">
+                                <div class="input-group">
+                                    <input type="text" class="form-control form-control-sm" v-model="searchTerm"
+                                        placeholder="Buscar productos..." />
+                                </div>
+                            </div>
+
+
+
                             <ProductsTable :products="filteredProducts" @view-detail="viewDetail"
-                                @add-to-cart="addToCart" />
+                                @add-to-cart="handleAddToCart" />
 
                         </div>
                     </div>
@@ -38,6 +47,9 @@ import ProductsTable from "../components/common/ProductsTable.vue";
 import { useRoute } from 'vue-router';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
+import { useStore } from 'vuex';
+import { useToast } from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-sugar.css';
 
 export default {
     components: {
@@ -54,6 +66,8 @@ export default {
         const breadcrumbItems = ref([]);
         const searchTerm = ref('');
         const router = useRouter();
+        const store = useStore();
+        const $toast = useToast();
 
         const filteredProducts = computed(() => {
             if (Array.isArray(products.value)) {
@@ -65,8 +79,9 @@ export default {
             }
         });
 
-        const addToCart = product => {
-            // Implementa la lógica para agregar el producto al carrito aquí
+        const handleAddToCart = (product) => {
+            store.dispatch('cart/addToCart', product);
+            let instance = $toast.success(product.title + " agregado al carrito!");
         };
 
         const viewDetail = (product) => {
@@ -108,7 +123,7 @@ export default {
             breadcrumbItems,
             searchTerm,
             viewDetail,
-            addToCart,
+            handleAddToCart
         };
     },
 };

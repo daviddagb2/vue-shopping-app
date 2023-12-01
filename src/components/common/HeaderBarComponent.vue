@@ -16,17 +16,6 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="ml-auto"> <!-- Esto alineará los elementos a la derecha -->
-                <div class="input-group">
-                    <input type="text" class="form-control form-control-sm" placeholder="Buscar..." v-model="searchQuery" />
-                    <button class="btn btn-success btn-sm" @click="search">
-                        Buscar
-                    </button>
-                </div>
-
-
-            </div>
-
         </div>
     </header>
 </template>

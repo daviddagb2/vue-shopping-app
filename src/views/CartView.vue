@@ -31,7 +31,7 @@
                             <p><strong>Total:</strong> ${{ totalCartPrice }} USD</p>
 
                             <div class="d-grid gap-2">
-                                <button class="btn btn-primary" type="button">
+                                <button class="btn btn-primary" type="button" @click="handlePayment">
                                     <font-awesome-icon :icon="['fas', 'money-bill-1']" />
                                     Pagar</button>
                             </div>
@@ -51,6 +51,8 @@ import LayoutTemplate from "../components/common/LayoutTemplateSimple.vue";
 import BreadcrumbComponent from "../components/common/BreadCrumb.vue";
 import CartElementItem from "../components/common/CartElementItem.vue";
 import { useStore } from 'vuex';
+import { useToast } from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-sugar.css';
 
 export default {
     components: {
@@ -63,6 +65,7 @@ export default {
         const products = ref([]);
         const breadcrumbItems = ref([]);
         const store = useStore();
+        const $toast = useToast();
 
         const createBreadCrumb = () => {
             breadcrumbItems.value = [];
@@ -88,6 +91,13 @@ export default {
             store.dispatch('cart/updateQuantity', { productId, newQuantity });
         };
 
+        const handlePayment = () => {
+            if (window.confirm("¿Está seguro que desea finalizar esta compra?")) {
+                store.dispatch('cart/clearCart');
+                let instance = $toast.info(" Su compra ha finalizado con éxito");
+            }
+        };
+
 
         return {
             cartItems,
@@ -95,6 +105,7 @@ export default {
             searchTerm,
             products,
             totalCartPrice,
+            handlePayment,
             handleRemove,
             updateQuantity,
         };

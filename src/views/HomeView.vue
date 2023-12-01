@@ -12,6 +12,13 @@
                         <div class="mainproductscontent">
                             <h1>Mejores Artículos de Oferta</h1>
 
+                            <div class="ml-auto">
+                                <div class="input-group">
+                                    <input type="text" class="form-control form-control-sm" v-model="searchTerm"
+                                        placeholder="Buscar productos..." />
+                                </div>
+                            </div>
+
                             <ProductsTable :products="filteredProducts" @view-detail="viewDetail"
                                 @add-to-cart="handleAddToCart" />
 
