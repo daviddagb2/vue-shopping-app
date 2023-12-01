@@ -1,4 +1,3 @@
-
 @import 'variables';
 @import 'header';
 @import 'sidebar';
@@ -24,6 +23,26 @@ background-color: $color-background;
         display: flex;
         flex-direction: column;
     }
-
 }
- 
+
+.btn-purple {
+    background-color: $mainBlue;
+    color: white;
+    transition: background-color 0.3s ease; // Smooth transition for the color change
+  
+    &:hover {
+      background-color: $hoverBlue;
+      color: white;
+      // Optionally, you could also change other properties, like the color, border, etc.
+    }
+  
+    &:active {
+      background-color: $activeBlue;
+      color: white;
+      // This will apply when the button is being pressed
+    }
+  }
+
+.btn-rounded{
+    border-radius: 15px;
+}

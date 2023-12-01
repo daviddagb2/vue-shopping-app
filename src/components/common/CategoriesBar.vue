@@ -4,7 +4,7 @@
         <h2>Categorías</h2>
 
         <div v-for="(category, index) in categories" :key="index">
-            <CategoryItem :title="category" :id="index" />
+            <CategoryItem :title="category" />
         </div>
 
     </div>
@@ -26,7 +26,6 @@ export default {
             try {
                 const response = await axios.get(`https://fakestoreapi.com/products/categories`);
                 categories.value = response.data;
-                console.log(response.data);
             } catch (error) {
                 console.error('Error al cargar las categorías:', error);
             }

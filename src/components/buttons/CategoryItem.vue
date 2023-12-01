@@ -1,6 +1,6 @@
 <template>
     <div class="d-grid gap-2">
-        <router-link :to="`/categories/${id}`" class="btn btn-link btn-block">{{ title }}</router-link>
+        <router-link :to="`/categories/${title}`" class="btn btn-link btn-block">{{ title }}</router-link>
     </div>
 </template>
   
@@ -9,7 +9,6 @@ import { computed } from "vue";
 
 export default {
     props: {
-        id: String,
         title: String,
     },
     setup(props) {

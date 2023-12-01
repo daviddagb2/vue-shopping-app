@@ -2,3 +2,6 @@ $body-bg: #f8fafc;
 $mainBlue: #0a4a6f;
 $color-background: #EFEFEF;
 $header-min-height: 40px;
+
+$hoverBlue: darken($mainBlue, 10%); // Darken the button on hover
+$activeBlue: darken($mainBlue, 20%);

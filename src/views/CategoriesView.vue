@@ -1,75 +1,114 @@
 <template>
     <LayoutTemplate>
         <template v-slot:content-slot>
-            <div class="container" style="max-width: 800px;">
-                <div class="row" v-if="product">
-                    <div class="col">
-                        <h1>Lista de Categorias</h1>
 
-                        <BreadcrumbComponent :items="breadcrumbItems" />
+            <div class="container">
 
-
+                <div class="row">
+                    <div class="col-md-2 px-0">
+                        <CategoriesBar />
                     </div>
-                </div>
-
-                <div class="row" v-if="product">
 
                     <div class="col">
-                        <div class="d-grid gap-2">
-                            <button class="btn btn-primary" type="button">Regresar</button>
+
+                        <div class="mainproductscontent">
+
+                            <h1>{{ categoryName }}</h1>
+
+                            <BreadcrumbComponent :items="breadcrumbItems" />
+
+                            <ProductsTable :products="filteredProducts" @view-detail="viewDetail"
+                                @add-to-cart="addToCart" />
+
                         </div>
                     </div>
-
-                    <div class="col">
-                        <div class="d-grid gap-2">
-                            <button class="btn btn-primary" type="button">Agregar al carrito</button>
-                        </div>
-                    </div>
-
                 </div>
             </div>
+
         </template>
     </LayoutTemplate>
 </template>
   
 <script>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed, watch } from 'vue';
 import LayoutTemplate from "../components/common/LayoutTemplateSimple.vue";
+import BreadcrumbComponent from "../components/common/BreadCrumb.vue";
+import CategoriesBar from "../components/common/CategoriesBar.vue";
+import ProductsTable from "../components/common/ProductsTable.vue";
+import { useRoute } from 'vue-router';
+import { useRouter } from 'vue-router';
 import axios from 'axios';
 
 export default {
     components: {
         LayoutTemplate,
+        BreadcrumbComponent,
+        CategoriesBar,
+        ProductsTable
     },
     setup() {
+        const route = useRoute();
+        const categoryName = computed(() => route.params.id);
         const productId = ref(null);
-        const product = ref(null);
+        const products = ref([]);
+        const breadcrumbItems = ref([]);
+        const searchTerm = ref('');
+        const router = useRouter();
 
-        const breadcrumbItems = [
-            { title: "Home", url: "#" },
-            { title: "Library", url: "#" },
-            { title: "Data", url: "#" },
-        ];
+        const filteredProducts = computed(() => {
+            if (Array.isArray(products.value)) {
+                return products.value.filter(product =>
+                    product.title.toLowerCase().includes(searchTerm.value.toLowerCase())
+                );
+            } else {
+                return [];
+            }
+        });
 
-        const fetchProductDetails = async () => {
+        const addToCart = product => {
+            // Implementa la lógica para agregar el producto al carrito aquí
+        };
+
+        const viewDetail = (product) => {
+            router.push(`/product/${product.id}`);
+        };
+
+        const createBreadCrumb = () => {
+            breadcrumbItems.value = [];
+            breadcrumbItems.value.push(
+                { title: "Inicio", url: "/" },
+                { title: categoryName, url: `/categories/${categoryName.value}` },
+            );
+        };
+
+        const fetchProducts = async () => {
             try {
-                const response = await axios.get(`https://fakestoreapi.com/products/${productId.value}`);
-                product.value = response.data;
-                console.log(response.data);
+                const response = await axios.get(`https://fakestoreapi.com/products/category/${categoryName.value}`);
+                products.value = response.data;
             } catch (error) {
                 console.error('Error al cargar los productos:', error);
             }
         };
 
-        onMounted(() => {
-            productId.value = 1;
-            fetchProductDetails();
+        watch(() => route.params.id, () => {
+            createBreadCrumb();
+            fetchProducts();
         });
 
+        onMounted(() => {
+            createBreadCrumb();
+            fetchProducts();
+        });
+
+
         return {
-            productId,
-            product,
-            breadcrumbItems
+            products,
+            filteredProducts,
+            categoryName,
+            breadcrumbItems,
+            searchTerm,
+            viewDetail,
+            addToCart,
         };
     },
 };

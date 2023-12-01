@@ -12,8 +12,6 @@ import ButtonAside from "../buttons/ButtonAside.vue";
 
                     <ButtonAside :icon="'house'" :variant="'fas'" :title="'Home'" :route="'/'" />
 
-                    <ButtonAside :icon="'cart-shopping'" :variant="'fas'" :title="'Categorías'" :route="'/categories'" />
-
                     <ButtonAside :icon="'cart-shopping'" :variant="'fas'" :title="'Carrito'" :route="'/cart'" />
 
                 </nav>

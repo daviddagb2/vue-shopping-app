@@ -22,7 +22,9 @@
 
                             <div class="col">
                                 <div class="d-grid gap-2">
-                                    <button class="btn btn-primary" type="button">Agregar al carrito</button>
+                                    <button class="btn btn-primary" type="button" @click="handleAddToCart(product)">
+                                        <font-awesome-icon :icon="['fas', 'cart-shopping']" />
+                                        Agregar al carrito</button>
                                 </div>
                             </div>
                         </div>
@@ -30,15 +32,6 @@
                     </div>
                 </div>
 
-                <div class="row" v-if="product">
-
-                    <div class="col">
-                        <div class="d-grid gap-2">
-                            <button class="btn btn-primary" type="button">Regresar</button>
-                        </div>
-                    </div>
-
-                </div>
             </div>
         </template>
     </LayoutTemplate>
@@ -48,7 +41,11 @@
 import { ref, onMounted } from 'vue';
 import LayoutTemplate from "../components/common/LayoutTemplateSimple.vue";
 import BreadcrumbComponent from "../components/common/BreadCrumb.vue";
+import { useRoute } from 'vue-router';
 import axios from 'axios';
+import { useStore } from 'vuex';
+import { useToast } from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-sugar.css';
 
 export default {
     components: {
@@ -56,9 +53,12 @@ export default {
         BreadcrumbComponent
     },
     setup() {
-        const productId = ref(null);
+        const route = useRoute();
+        const productId = ref(route.params.id);
         const product = ref(null);
         const breadcrumbItems = ref([]);
+        const store = useStore();
+        const $toast = useToast();
 
         const fetchProductDetails = async () => {
             try {
@@ -79,15 +79,20 @@ export default {
             }
         };
 
+        const handleAddToCart = (product) => {
+            store.dispatch('cart/addToCart', product);
+            let instance = $toast.success(product.title + " agregado al carrito!");
+        };
+
         onMounted(() => {
-            productId.value = 1;
             fetchProductDetails();
         });
 
         return {
             productId,
             product,
-            breadcrumbItems
+            breadcrumbItems,
+            handleAddToCart
         };
     },
 };

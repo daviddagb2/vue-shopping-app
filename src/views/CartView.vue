@@ -1,11 +1,46 @@
 <template>
     <LayoutTemplate>
         <template v-slot:content-slot>
-            <h1>Cart</h1>
+            <div class="container checkoutsection">
 
-            <PrimeButton>Button Prime</PrimeButton>
+                <BreadcrumbComponent :items="breadcrumbItems" />
+
+                <div class="row">
+
+                    <div class=" col">
+                        <h3> <font-awesome-icon :icon="['fas', 'arrow-left']" /> Proceso de compra</h3>
+
+                        <hr />
+
+                        <p>Shopping cart</p>
+                        <p>Tienes {{ cartItems.length }} elementos en el carrito</p>
+
+                        <CartElementItem v-for="item in cartItems" :key="item.id" :image="item.image" :title="item.title"
+                            :color="item.color" :quantity="item.quantity" :price="item.price"
+                            @remove="handleRemove(item.id)" @update-quantity="updateQuantity(item.id, $event)" />
+                    </div>
 
 
+
+                    <div class="col-md-4">
+                        <div class="card px-2 py-2 bg-light">
+                            <h2>Detalles de la compra</h2>
+
+                            <p><strong>Cantidad de productos:</strong> {{ cartItems.length }}</p>
+
+                            <p><strong>Total:</strong> ${{ totalCartPrice }} USD</p>
+
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-primary" type="button">
+                                    <font-awesome-icon :icon="['fas', 'money-bill-1']" />
+                                    Pagar</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
         </template>
     </LayoutTemplate>
 </template>
@@ -13,48 +48,70 @@
 <script>
 import { ref, computed } from 'vue';
 import LayoutTemplate from "../components/common/LayoutTemplateSimple.vue";
+import BreadcrumbComponent from "../components/common/BreadCrumb.vue";
+import CartElementItem from "../components/common/CartElementItem.vue";
+import { useStore } from 'vuex';
 
 export default {
     components: {
-        LayoutTemplate
+        LayoutTemplate,
+        BreadcrumbComponent,
+        CartElementItem
     },
     setup() {
         const searchTerm = ref('');
-        const products = ref([]); // La lista completa de productos obtenidos de la API
+        const products = ref([]);
+        const breadcrumbItems = ref([]);
+        const store = useStore();
 
-        const filteredProducts = computed(() => {
-            // Filtra los productos según el término de búsqueda
-            return products.value.filter(product =>
-                product.title.toLowerCase().includes(searchTerm.value.toLowerCase())
+        const createBreadCrumb = () => {
+            breadcrumbItems.value = [];
+            breadcrumbItems.value.push(
+                { title: "Inicio", url: "/" },
+                { title: "Carrito de compras", url: `/cart` },
             );
+        };
+
+        const cartItems = computed(() => store.getters['cart/getCartItems']);
+
+        const totalCartPrice = computed(() => {
+            return cartItems.value.reduce((total, item) => {
+                return total + (item.price * item.quantity);
+            }, 0);
         });
 
-        // Método para agregar un producto al carrito (debes implementar esto según tu lógica)
-        const addToCart = product => {
-            // Implementa la lógica para agregar el producto al carrito aquí
+        const handleRemove = (productId) => {
+            store.dispatch('cart/removeFromCart', productId);
         };
 
-        // Método para cargar la lista de productos desde la API (debes implementar esto)
-        const fetchProducts = () => {
-            // Implementa la lógica para obtener los productos de la API aquí
+        const updateQuantity = (productId, newQuantity) => {
+            store.dispatch('cart/updateQuantity', { productId, newQuantity });
         };
 
-        // Método para filtrar productos cuando se realiza una búsqueda
-        const filterProducts = () => {
-            // Esto se manejará automáticamente a través de la propiedad "filteredProducts" calculada
-        };
-
-        // Carga la lista de productos al cargar la página
-        fetchProducts();
 
         return {
+            cartItems,
+            breadcrumbItems,
             searchTerm,
             products,
-            filteredProducts,
-            addToCart,
-            filterProducts,
+            totalCartPrice,
+            handleRemove,
+            updateQuantity,
         };
     },
 };
 </script>
   
+<style lang="scss" scoped>
+.checkoutsection {
+    h3 {
+        text-align: left;
+        font-size: 16px;
+    }
+
+    h2 {
+        font-size: 18px;
+        font-weight: bold;
+    }
+}
+</style>

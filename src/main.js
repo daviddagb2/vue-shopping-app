@@ -4,8 +4,8 @@ import App from "./App.vue";
 import router from "./router";
 import axios from "axios";
 import VueAxios from "vue-axios";
-import store from "./store"; // Vuex store instance
-
+import store from "./store";
+import ToastPlugin from "vue-toast-notification";
 import PrimeVue from "primevue/config";
 
 //Prime Components
@@ -22,6 +22,7 @@ import "primeicons/primeicons.css";
 
 // Bootstrap JS
 import "bootstrap/dist/js/bootstrap.js";
+import "vue-toast-notification/dist/theme-bootstrap.css";
 
 // Fontawesome core
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -33,11 +34,19 @@ import {
   faHouse,
   faShoppingCart,
   faBars,
+  faTrash,
+  faEye,
+  faArrowLeft,
+  faMoneyBill1,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(faHouse);
 library.add(faShoppingCart);
 library.add(faBars);
+library.add(faTrash);
+library.add(faArrowLeft);
+library.add(faEye);
+library.add(faMoneyBill1);
 
 //Styles
 import "bootstrap/dist/css/bootstrap.css";
@@ -52,6 +61,7 @@ app.use(createPinia());
 app.use(router);
 app.use(VueAxios, axios);
 app.use(store);
+app.use(ToastPlugin);
 app.use(PrimeVue, {
   ripple: true,
   inputStyle: "filled",
