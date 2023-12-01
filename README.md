@@ -25,7 +25,6 @@ Para comenzar a usar y desarrollar el proyecto en tu máquina local, sigue estos
    git clone https://tu-repositorio.git
    cd tu-repositorio
 
-
 2. **Instalar Dependencias**
     ```bash
     npm install
@@ -33,7 +32,6 @@ Para comenzar a usar y desarrollar el proyecto en tu máquina local, sigue estos
 3. **Ejecutar el Proyecto**
     ```bash
     npm run dev
-
 
 Esto iniciará un servidor de desarrollo local. 
 
